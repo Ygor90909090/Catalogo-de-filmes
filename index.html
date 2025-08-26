@@ -1,53 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melhores Filmes</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Ferramenta Interativa de Estudo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .quiz-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .options {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Melhores Filmes</h1>
-
-    <div class="movie">
-        <h2>Oppenheimer</h2>
-        <img src="003.jpg" alt="Oppenheimer">
-        <a href="https://oneflix.vip/filmes/oppenheimer/" class="more-info">Assistir Agora</a>
+    <h1>Ferramenta Interativa de Estudo</h1>
+    <div class="quiz-container">
+        <h2>Quiz de Conhecimentos Gerais</h2>
+        <div id="quiz"></div>
+        <button onclick="verificarRespostas()">Verificar Respostas</button>
+        <div id="resultado"></div>
     </div>
 
-    <div class="movie">
-        <h2>Avatar: O Caminho da Água</h2>
-        <img src="004.jpg" alt="Avatar: O Caminho da Água">
-        <a href="https://oneflix.vip/filmes/avatar-o-caminho-da-agua/" class="more-info">Acessar Filme</a>
-    </div>
+    <script>
+        const perguntas = [
+            {
+                pergunta: "Qual é a capital do Brasil?",
+                opcoes: ["Brasília", "Rio de Janeiro", "São Paulo", "Salvador"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o maior planeta do sistema solar?",
+                opcoes: ["Terra", "Marte", "Júpiter", "Saturno"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Quem escreveu 'Dom Casmurro'?",
+                opcoes: ["Machado de Assis", "José de Alencar", "Clarice Lispector", "Jorge Amado"],
+                respostaCorreta: 0
+            }
+        ];
 
-    <div class="movie">
-        <h2>John Wick 4</h2>
-        <img src="005.jpg" alt="John Wick 4">
-        <a href="https://oneflix.vip/filmes/john-wick-4-baba-yaga/" class="more-info">Acessar Filme</a>
-    </div>
+        function carregarQuiz() {
+            const quizDiv = document.getElementById('quiz');
+            perguntas.forEach((pergunta, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('question');
+                questionElement.innerHTML = `<p>${index + 1}. ${pergunta.pergunta}</p>`;
+                
+                pergunta.opcoes.forEach((opcao, i) => {
+                    questionElement.innerHTML += `
+                        <div class="options">
+                            <input type="radio" name="pergunta${index}" value="${i}" id="pergunta${index}opcao${i}">
+                            <label for="pergunta${index}opcao${i}">${opcao}</label>
+                        </div>
+                    `;
+                });
+                quizDiv.appendChild(questionElement);
+            });
+        }
 
-    <div class="movie">
-        <h2>Homem-Aranha: Através do Aranhaverso</h2>
-        <img src="006.jpg" alt="Homem-Aranha: Através do Aranhaverso">
-        <a href="https://oneflix.vip/filmes/homem-aranha-atraves-do-aranhaverso/" class="more-info">Acessar Filme</a>
-    </div>
+        function verificarRespostas() {
+            let acertos = 0;
+            perguntas.forEach((pergunta, index) => {
+                const respostaSelecionada = document.querySelector(`input[name="pergunta${index}"]:checked`);
+                if (respostaSelecionada) {
+                    const respostaIndex = parseInt(respostaSelecionada.value);
+                    if (respostaIndex === pergunta.respostaCorreta) {
+                        acertos++;
+                    }
+                }
+            });
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = `Você acertou ${acertos} de ${perguntas.length} perguntas.`;
+        }
 
-    <div class="movie">
-        <h2>Guardiões da Galáxia Vol. 3</h2>
-        <img src="002.jpg" alt="Guardiões da Galáxia Vol. 3">
-        <a href="https://seriesflix3.to/filmes/assistir-guardioes-da-galaxia-volume-3-online-htr001/" class="more-info">Acessar Filme</a>
-    </div>
-
-    <div class="movie">
-        <h2>Missão: Impossível - Acerto de Contas Parte Um</h2>
-        <img src="001.jpg" alt="Missão: Impossível - Acerto de Contas Parte Um">
-        <a href="https://oneflix.vip/filmes/missao-impossivel-acerto-de-contas-parte-1/" class="more-info">Acessar Filme</a>
-    </div>
-</div>
-
-<script src="scripts.js"></script>
+        // Carregar o quiz ao iniciar a página
+        window.onload = carregarQuiz;
+    </script>
 </body>
 </html>
